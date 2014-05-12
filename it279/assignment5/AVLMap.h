@@ -1,0 +1,285 @@
+/*
+	Rachel A Schifano
+	IT 279 Assignment 5
+*/
+
+#ifndef _AVLMAP_
+#define _AVLMAP_
+
+#include "MapInterface.h"
+#include <vector>
+#include <string>
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+template<class S, class T>
+class AVLMap: public MapInterface<S,T>
+{
+
+	class AVLNode
+	{
+		public:
+			T value;
+			S key;
+			AVLNode *left;
+			AVLNode *right;
+			int height;
+
+		AVLNode()
+		{
+			
+			left = NULL;
+			right = NULL;
+			height = 0;
+		}
+
+		~AVLNode()
+		{
+		}
+	};
+
+	public:
+	  AVLMap()
+	  {
+		root = NULL;
+	  }
+
+	  ~AVLMap()
+	  {
+	  }
+	
+	// Given a key, find whether there is a (key, value) pair in the map that has the same key.
+	bool find(const S& key)
+	{
+		cout << key << endl;
+		return find(key, root);
+	}
+
+	bool find(const S& key, AVLNode *node)
+	{
+		if (node == NULL) {
+			return false;
+		}		
+	
+		if (node->key == key) {
+			return true;
+		}	
+
+		if (node->key < key) {
+			find(key, node->left);
+		}
+		else if (node->key > key) {
+			find(key, node->right);
+		}
+	}
+
+	// Given a key, this should return a reference to its corresponding value.
+	T& operator[](const S& key)
+	{
+	//	cout<<"hello7"<<endl;
+		return add(key, root);
+	}
+
+
+	T& add(const S& key, AVLNode *& node) {
+		int l,r;
+		// cout<<key<<endl;
+		if (node == NULL) {
+			node = new AVLNode();
+			node->key = key;
+			return node->value;		
+		}
+		if (node->key == key) {
+			return node->value;
+		}
+
+		if(node->left == NULL) {
+			l = -1;
+		} else {
+			l = node->left->height;
+		}
+		
+		if(node->right == NULL) {
+			r = -1;
+		} else {
+			r = node->right->height;
+		}
+
+		if (node->key > key) {
+			add(key, node->left);
+
+			if (abs(l - r) == 2) {
+				if (key < node->left->key) {
+					rotateWithLeftChild(node);
+				} else {
+					doubleWithLeftChild(node);
+				}
+			}
+		}
+		else if (node->key < key) {
+			add(key, node->right);
+
+			if (abs(l -r) == 2) {
+				if (key > node->right->key) {
+					rotateWithRightChild(node);
+				} else {
+					doubleWithRightChild(node);
+				}
+			}
+		}
+
+		if(node->left == NULL) {
+			l = -1;
+		} else {
+			l = node->left->height;
+		}
+		
+		if(node->right == NULL) {
+			r = -1;
+		} else {
+			r = node->right->height;
+		}
+		// set height of tree
+		node->height = max(l, r) + 1;
+		// cout<<node->value<<endl;
+		return node->value;
+	}
+
+	void rotateWithLeftChild(AVLNode *& k2)
+	{
+		int kl2,kr2,kl1;
+		AVLNode* k1 = k2->left;
+		k2->left = k1->right;
+		k1->right = k2;
+
+		if(k2->left == NULL) {
+			kl2 = -1;
+		} else {
+			kl2 = k2->left->height;
+		}
+
+		if(k2->right == NULL) {
+			kr2 = -1;
+		} else {
+			kr2 = k2->right->height;
+		}
+
+		if(k1->left == NULL) {
+			kl1 = -1;
+		} else {
+			kl1 = k1->left->height;
+		}
+		
+		k2->height = max(kl2, kr2) + 1;
+
+		if(k2->left == NULL) {
+			kl2 = -1;
+		} else {
+			kl2 = k2->left->height;
+		}
+
+		if(k2->right == NULL) {
+			kr2 = -1;
+		} else {
+			kr2 = k2->right->height;
+		}
+
+		if(k1->left == NULL) {
+			kl1 = -1;
+		} else {
+			kl1 = k1->left->height;
+		}
+		k1->height = max(kl1, k2->height) + 1;
+		k2 = k1;
+	}
+
+	void rotateWithRightChild(AVLNode * & k2)
+	{
+		int kl2,kr2,kr1;
+		cout<<k2->right->key<<endl;
+		AVLNode*k1 = k2->right;
+	
+		k2->right = k1-> left;
+		k1->left = k2;
+
+		if(k2->left == NULL) {
+			kl2 = -1;
+		} else{
+			kl2 = k2->left->height;
+		}
+
+		if(k2->right == NULL) {
+			kr2 = -1;
+		} else {
+			kr2 = k2->right->height;
+		}
+		
+		if(k1->right == NULL) {
+			kr1 = -1;
+		} else {
+			kr1 = k1->right->height;
+		}
+		k2-> height = max(kr2, kl2) +1;
+
+		if(k2->left == NULL) {
+			kl2 = -1;
+		} else {
+			kl2 = k2->left->height;
+		}
+		
+		if(k2->right == NULL) {
+			kr2 = -1;
+		} else {
+			kr2 = k2->right->height;
+		}
+		
+		if(k1->right == NULL) {
+			kr1 = -1;
+		} else {
+			kr1 = k1->right->height;
+		}
+		k1->height = max(kr1,k2->height)+1;
+	}
+
+	void doubleWithLeftChild(AVLNode *& k3)
+	{
+		rotateWithRightChild(k3->left);
+		rotateWithLeftChild(k3);
+	}
+
+	void doubleWithRightChild(AVLNode *& k3)
+	{
+		rotateWithLeftChild(k3->right);
+		rotateWithRightChild(k3);
+	}
+
+	// Returns all the keys currently existing in the map in a vector.
+	vector<S> getKeys()
+	{  
+		vector<S> keyvector;
+		return getKeys(root, &keyvector);
+	}
+
+	vector<S> getKeys(AVLNode *node, vector<S> *keyvector)
+	{
+		if (node->left != NULL) {
+			getKeys(node->left, keyvector);			
+		}
+		keyvector->push_back(node->key);
+		if (node->right != NULL) {
+			getKeys(node->right, keyvector);
+			
+		}
+		return *keyvector;
+	}
+
+	private:
+		AVLNode *root; // root to the AVLMap
+		T* val;
+};
+// :( sadface
+
+#endif
+

@@ -1,0 +1,104 @@
+/*
+	Name: Rachel A Schifano
+	Course: IT 279
+	Assignment 3
+*/
+
+#include <iostream>
+#include <stdio.h>
+#include "PriorityQueue.h"
+
+// Constructor
+template <class T>
+PriorityQueue<T>::PriorityQueue() {
+	int size = 0;
+	heap[size];
+}
+
+// Deconstructor
+template <class T>
+PriorityQueue<T>::~PriorityQueue() {
+}
+
+// Inserts a new object with the given priority
+template <class T> 
+void PriorityQueue<T>::insert(T obj, float priority) {
+
+	/* Add element to bottom level of the heap.
+	   Compare added element to parent.
+	   If not correct order, swap. */
+	size++;
+	heap[size] = obj;
+	percolateUp(size);
+}
+
+// Returns but does not remove the object with the lowest priority (by number) currently in the queue
+template <class T>
+T PriorityQueue<T>::front() {
+
+}
+
+// Removes and returns the object with lowest priority (by number) currently in queue
+template <class T>
+T PriorityQueue<T>::pop() {
+
+
+}
+
+// Returns true if the priority queue is empty, false otherwise
+template <class T>
+bool PriorityQueue<T>::isEmpty() {
+
+	if (size == 0) {
+		return true;
+	}
+	return false;
+}
+
+// Changes the priority of an existing object to the new priority
+// This function does not do anything if the provided object does not exist in the priority queue.
+template <class T>
+void PriorityQueue<T>::changePriority(T obj, float new_priority) {
+
+}
+
+// Removes a particular object from the priority queue.
+// First changes priority to be the greatest in the queue and then pops it off.
+template <class T>
+void PriorityQueue<T>::remove(T obj) {
+
+	// percolateDown(index);
+
+
+
+}
+
+// Percolate Up
+template <class T>
+void PriorityQueue<T>::percolateUp(int index) {
+
+	hole = index;
+	T data = heap[hole];
+
+	// when hole becomes 1, stop
+	while (hole > 1 && heap[hole / 2] > data) {
+		heap[hole] = heap[hole / 2];
+		hole = hole / 2;
+	}
+	heap[hole] = data;
+}
+
+// Percolate Down
+template <class T>
+void PriorityQueue<T>::percolateDown(int index) {
+
+	hole = index;
+	T data = heap[hole];
+
+	// when hole becomes 1, stop
+	while (hole > 1 && heap[hole / 2] < data) {
+		heap[hole] = heap[hole / 2];
+		hole = hole / 2;
+	}
+	heap[hole] = data;
+}

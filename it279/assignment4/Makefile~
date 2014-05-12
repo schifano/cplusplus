@@ -1,0 +1,11 @@
+sort: Sorts.o SortsTest.o Sorts.h
+	g++ -o sort Sorts.o SortsTest.o
+
+Sorts.o: Sorts.cpp Sorts.h
+	g++ -c Sorts.cpp
+
+SortsTest.o: SortsTest.cpp Sorts.h
+	g++ -c SortsTest.cpp
+
+clean:
+	rm sort *.o

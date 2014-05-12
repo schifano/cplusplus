@@ -1,0 +1,22 @@
+/*
+	Name: Rachel A Schifano
+	Course: IT 279
+	Assignment 4: Which is the best sort of them all?
+	Description: Class that stores and maintains number of comparisons and assignments.
+*/
+using namespace std;
+
+int class Count {
+	public:
+		/* variablest to track all assignments */
+		int heap_assignments = 0;
+		int insert_assignments = 0;
+		int merge_assignments = 0;
+		int quick_assignments = 0;
+		
+		/* variables to track all comparisons */
+		int heap_comparisons = 0;
+		int insert_comparisons = 0;			
+		int merge_comparisons = 0;
+		int quick_comparisons = 0;
+};

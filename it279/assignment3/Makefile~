@@ -1,0 +1,12 @@
+PriorityTest: main.o PriorityQueue.h
+	g++ -o PriorityTest main.o
+
+main.o: main.cpp
+	g++ -c main.cpp
+
+PriorityQueue.o: PriorityQueue.h
+	
+clean:
+	rm PriorityTest *.o
+
+

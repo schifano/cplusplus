@@ -1,0 +1,19 @@
+WordComplete: PrefixNode.o WordCompleter.o WordTest.o BunchOfWords.o
+	g++ -o WordComplete PrefixNode.o WordCompleter.o WordTest.o BunchOfWords.o
+
+PrefixNode.o: PrefixNode.cpp
+	g++ -c PrefixNode.cpp
+
+WordCompleter.o: WordCompleter.cpp
+	g++ -c WordCompleter.cpp
+
+WordTest.o: WordTest.cpp
+	g++ -c WordTest.cpp
+
+BunchOfWords.o: BunchOfWords.cpp
+	g++ -c BunchOfWords.cpp
+
+clean:
+	rm WordComplete *.o
+
+

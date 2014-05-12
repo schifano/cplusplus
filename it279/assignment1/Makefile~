@@ -1,0 +1,13 @@
+TriangleModel: TriangleModel.o TriangleModelTest.o
+	g++ -o TriangleModel TriangleModel.o TriangleModelTest.o
+
+TriangleModel.o: TriangleModel.cpp
+	g++ -c TriangleModel.cpp
+
+TriangleModelTest.o: TriangleModelTest.cpp
+	g++ -c TriangleModelTest.cpp
+
+clean:
+	rm TriangleModel *.o
+
+
